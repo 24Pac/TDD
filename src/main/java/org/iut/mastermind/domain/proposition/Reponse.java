@@ -7,7 +7,6 @@ import java.util.List;
 public class Reponse {
     private final String motSecret;
     private final List<Lettre> resultat = new ArrayList<>();
-    private int position;
 
     public Reponse(String mot) {
         this.motSecret = mot;
@@ -22,9 +21,9 @@ public class Reponse {
     // du mot proposé
     public void compare(String essai) {
         resultat.clear();
-        for (position = 0; position < essai.length(); position++) {
-            char carCourant = essai.charAt(position);
-            resultat.add(evaluationCaractere(carCourant));
+        for (int i = 0; i < essai.length(); i++) {
+            char carCourant = essai.charAt(i);
+            resultat.add(evaluationCaractere(carCourant,i));
         }
     }
 
@@ -38,8 +37,8 @@ public class Reponse {
     }
 
     // renvoie le statut du caractère (incorrect, mal placé, placé)
-    private Lettre evaluationCaractere(char carCourant) {
-        if (estPlace(carCourant)) return Lettre.PLACEE;
+    private Lettre evaluationCaractere(char carCourant, int position) {
+        if (estPlace(carCourant, position)) return Lettre.PLACEE;
         if (estPresent(carCourant)) return Lettre.NON_PLACEE;
         return Lettre.INCORRECTE;
     }
@@ -50,7 +49,7 @@ public class Reponse {
     }
 
     // vrai si le caractère est placé dans le mot secret
-    private boolean estPlace(char carCourant) {
+    private boolean estPlace(char carCourant,int position) {
         return motSecret.charAt(position) == carCourant;
     }
 }
